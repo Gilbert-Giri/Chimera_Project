@@ -24,3 +24,12 @@ samtools index ${bam_file}_sorted.bam
 Python 3.7.9
 
 cnvkit.py batch ../DG1_sorted.bam ../DG2_sorted.bam ../DG3_sorted.bam ../DG4_sorted.bam ../DG5_sorted.bam ../DG7_sorted.bam ../DG8_sorted.bam ../DG9_sorted.bam ../DG10_sorted.bam -n ../DG11_sorted.bam -m wgs -f Chimera.fa --annotate Chimera.gtf -p 16 --targets Chimera.bed --target-avg-size 10000
+
+
+##CNV Caller -Sequenza
+
+Python 3.6.6
+R version 4.2.1 (2022-06-23)
+
+sequenza-utils gc_wiggle -w 50 --fasta /proj/RNA_lab/Gilbert/INDEXES/CHIMERA/Chimera.fa -o Chimera.gc50Base.wig.gz
+
