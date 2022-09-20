@@ -1,0 +1,36 @@
+GEnome wide Plot using mosdepth coverage
+
+mosdepth -t 4 --no-per-base --fast-mode -b 10000000 DG3 DG3_sorted_MrkDup.bam
+
+DG3<-read.table("/Users/gilbertgiri/Desktop/Dominguez_Lab/DG3.regions.bed")
+colnames(DG3)<-c("Chromosome","Start","Stop","Depth")
+DG3$Species<-sapply(DG3$Chromosome,function(x){strsplit(x,"_")[[1]][1]})
+DG3$Chromosome<-sapply(DG3$Chromosome,function(x){strsplit(x,"_")[[1]][2]})
+
+##Humans
+Human<-DG3[which(DG3$Species=="hg38"),]
+
+l<-c("chr1","chr2","chr3","chr4","chr5","chr6","chr7","chr8","chr9","chr10",
+     "chr11","chr12","chr13","chr14","chr15","chr16","chr17","chr18","chr19","chr20",
+     "chr21","chr22","chrX","chrY")
+
+Human<-Human[which(Human$Chromosome %in% l),]
+
+Human$Chromosome<-factor(Human$Chromosome,levels=l)
+#Human<-Human[which(Human$Chromosome=="chr2"),]
+#Human<-Human[sort(factor(Human$Chromosome,levels=l, ordered=TRUE)),]
+ggplot(Human,mapping = aes(x=X,y=Depth))+
+  geom_point(alpha=1,size=0.05)+
+  geom_line(color="#B92B79")+
+  facet_wrap(~Chromosome,nrow=1,scales="free_x")+
+  theme_classic()+
+  theme(panel.spacing = unit(0,"lines"),
+        panel.border = element_rect(fill = NA, color = "black", linetype = "dashed"),
+        legend.position = "none",
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        strip.background = element_blank(),
+        strip.text.y = element_text(angle = 45))
+  
+ 
+ggsave("/Users/gilbertgiri/Desktop/Dominguez_Lab/Chimera/Final_Figures/DG3_Genomewode_Depth.pdf",width = 12,height = 4,dpi=1200)
